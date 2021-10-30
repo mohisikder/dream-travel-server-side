@@ -20,8 +20,14 @@ async function run() {
     await client.connect();
     const database = client.db("dream_travel_db");
     const toursCollection = database.collection("tours");
-    console.log('database connected successfully');
+    const bookingCollection = database.collection("booking")
     
+    app.post('/addservice', async(req, res)=>{
+      const newService = (req.body);
+      const result = await toursCollection.insertOne(newService)
+      console.log(result);
+      res.json(result)
+    })
    
   } finally {
     // await client.close();
@@ -30,7 +36,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res)=>{
-   res.send('Hello World!!')
+   res.send('Hello World!! from heroku')
 })
 
 app.get('/products/:id', (req, res)=> {
