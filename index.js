@@ -29,11 +29,35 @@ async function run() {
       res.json(result)
     })
 
+    // ADD BOOKING POST
+    app.post('/addbooking', async(req, res)=>{
+      const newBook = (req.body)
+      const result = await bookingCollection.insertOne(newBook)
+      // res.json(result)
+      console.log(result);
+    })
+
+    // GET MY BOOKING
+    app.get('/mybooking/:email', async(req, res)=>{
+      const query = (req.params.email)
+      const result = await bookingCollection.find({email : (query)}).toArray()
+      res.send(result);
+    })
+
     // GET API
     app.get('/tours', async(req,res)=>{
       const result = await toursCollection.find({}).toArray()
       res.send(result)
     })
+
+    // DELETE BOOKING
+
+    app.delete("/deletebooking/:id", async (req, res) => {
+      const result = await EventsCollection.deleteOne({
+        _id: ObjectId(req.params.id),
+      });
+      res.send(result);
+    });
    
   } finally {
     // await client.close();
