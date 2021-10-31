@@ -22,11 +22,17 @@ async function run() {
     const toursCollection = database.collection("tours");
     const bookingCollection = database.collection("booking")
     
+    // POST API
     app.post('/addservice', async(req, res)=>{
       const newService = (req.body);
       const result = await toursCollection.insertOne(newService)
-      console.log(result);
       res.json(result)
+    })
+
+    // GET API
+    app.get('/tours', async(req,res)=>{
+      const result = await toursCollection.find({}).toArray()
+      res.send(result)
     })
    
   } finally {
