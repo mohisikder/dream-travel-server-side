@@ -65,13 +65,6 @@ async function run() {
 }
 run().catch(console.dir);
 
-app.get('/', (req, res)=>{
-   res.send('Hello World!! from heroku')
-})
-
-app.get('/products/:id', (req, res)=> {
-  res.json({msg: 'This is CORS-enabled for all origins!'})
-})
 
 app.listen(port, () =>{
   console.log('Running web server listening on port', port)
