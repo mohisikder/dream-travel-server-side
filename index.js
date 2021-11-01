@@ -52,6 +52,12 @@ async function run() {
       res.send(result)
     })
 
+    // GET ALL Booking API
+    app.get('/allbooking', async(req,res)=>{
+      const result = await toursCollection.find({}).toArray()
+      res.send(result)
+    })
+
     // DELETE BOOKING
 
     app.delete('/booking/:id', async (req, res) => {
