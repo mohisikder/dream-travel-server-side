@@ -1,6 +1,7 @@
 const express = require('express')
 const { MongoClient } = require('mongodb');
 const cors = require('cors')
+const ObjectId = require('mongodb').ObjectId
 require('dotenv').config()
 
 const app = express()
@@ -20,7 +21,7 @@ async function run() {
     await client.connect();
     const database = client.db("dream_travel_db");
     const toursCollection = database.collection("tours");
-    const bookingCollection = database.collection("booking")
+    const bookingCollection = database.collection("user_book")
     
     // POST API
     app.post('/addservice', async(req, res)=>{
@@ -33,9 +34,10 @@ async function run() {
     app.post('/addbooking', async(req, res)=>{
       const newBook = (req.body)
       const result = await bookingCollection.insertOne(newBook)
-      // res.json(result)
+      res.json(result)
       console.log(result);
     })
+  
 
     // GET MY BOOKING
     app.get('/mybooking/:email', async(req, res)=>{
@@ -52,11 +54,11 @@ async function run() {
 
     // DELETE BOOKING
 
-    app.delete("/deletebooking/:id", async (req, res) => {
-      const result = await EventsCollection.deleteOne({
-        _id: ObjectId(req.params.id),
-      });
-      res.send(result);
+    app.delete('/booking/:id', async (req, res) => {
+      const id = req.params.id
+      const query = {_id: ObjectId(id)}
+      const result = bookingCollection.deleteOne(query)
+      res.json(result)
     });
    
   } finally {
